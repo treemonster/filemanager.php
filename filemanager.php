@@ -5,7 +5,7 @@
  latest 2017/3/20
  git: https://github.com/treemonster/filemanager.php
  */
-$root=realpath(dirname(__FILE__));// 指定文件管理的根目录，所有的文件操作只能在此目录下进行。此目录必须具备全部读写权限
+$root=realpath(dirname(__FILE__).'/files');// 指定文件管理的根目录，所有的文件操作只能在此目录下进行。此目录必须具备全部读写权限
 
 // 校验访问者身份，所有人都可以使用文件下载功能，但其他功能必须校验用户身份
 // 请根据实际情况增加校验逻辑
@@ -24,6 +24,7 @@ function checkPermission(){
 $dir=isset($_REQUEST['dir'])?$_REQUEST['dir']:'.';
 $realdir=realpath($root.'/'.$dir);
 if(substr($realdir, 0,strlen($root))!=$root)$dir=".";
+$dir=substr($realdir,strlen($root));
 $realdir=realpath($root.'/'.$dir);
 
 if(isset($_REQUEST['down'])){
@@ -121,13 +122,13 @@ sort($dirs);
 sort($files);
 echo '<br>';
 foreach($dirs as $f)
-  if($f=='..')echo '<a href="?dir='.$dir.'/'.$f.'" style="color:#ff0000;">parent folder</a><br><br>';
-  else echo '<a href="?dir='.$dir.'/'.$f.'">'.$f.'</a>&nbsp;<a href="?dir='.$dir.'&deldir='.$f.'" onclick=\'return confirm('.json_encode('sure to drop this directory?').')\' style="color:#777777;">delete</a><br>';
+  if($f=='..')echo '<a href="?dir='.urlencode($dir).'/'.urlencode($f).'" style="color:#ff0000;">parent folder</a><br><br>';
+  else echo '<a href="?dir='.urlencode($dir).'/'.urlencode($f).'">'.$f.'</a>&nbsp;<a href="?dir='.urlencode($dir).'&deldir='.urlencode($f).'" onclick=\'return confirm('.json_encode('sure to drop this directory ['.$f.']?').')\' style="color:#777777;">delete</a><br>';
 echo '<br>';
 foreach($files as $f)
   echo $f.'&nbsp;<a href="?dir='.$dir.'&down='.$f.'"><small>download</small></a>&nbsp;<button onclick=\'prompt("",'.json_encode(
-  	$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?dir='.$dir.'&down='.$f
-  ).')\'>copy</button>&nbsp;<a style="color:#777777;" href="?dir='.$dir.'&delfile='.$f.'" onclick=\'return confirm('.json_encode('sure to delete this file?').')\'>delete</a><br>';
+  	$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?dir='.urlencode($dir).'&down='.urlencode($f)
+  ).')\'>copy</button>&nbsp;<a style="color:#777777;" href="?dir='.urlencode($dir).'&delfile='.urlencode($f).'" onclick=\'return confirm('.json_encode('sure to delete this file?').')\'>delete</a><br>';
 ?><meta charset="utf-8">
 
 <div style="position: fixed;
