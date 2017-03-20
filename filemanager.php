@@ -10,14 +10,13 @@ $root=realpath(dirname(__FILE__).'/files');// 指定文件管理的根目录，�
 // 校验访问者身份，所有人都可以使用文件下载功能，但其他功能必须校验用户身份
 // 请根据实际情况增加校验逻辑
 function checkPermission(){
-  /*
-   // 例如
-   session_start();
-   if(!$_SESSION['logined']){
-	    die('permission denied');
-   }
-   */
-  return true;
+  /* 一个简单的登陆例子
+  session_start();
+  if(@$_REQUEST['do']=='logout') unset($_SESSION['adminlogin.filemanager']);
+  if(@$_REQUEST['cp']=='pwD12367') $_SESSION['adminlogin.filemanager']='logined';
+  if(@$_SESSION['adminlogin.filemanager']!=="logined") die('<form method="POST">please login in: <input name="cp" type="password"><input type="submit"></form>');
+  echo '<a href="?do=logout">logout</a>';
+  */
 }
 
 ///////////////////////////////////////////////////////////////
