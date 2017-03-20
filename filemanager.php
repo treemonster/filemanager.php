@@ -4,7 +4,8 @@
  author treemonster
  latest 2017/3/20
  */
-$root=realpath(dirname(__FILE__).'/../uploads/access_tokens');
+$root=realpath(dirname(__FILE__).'/../uploads/access_tokens');// 指定文件管理的根目录，所有的文件操作只能在此目录下进行。此目录必须具备全部读写权限
+
 $dir=isset($_REQUEST['dir'])?$_REQUEST['dir']:'.';
 $realdir=realpath($root.'/'.$dir);
 if(substr($realdir, 0,strlen($root))!=$root)$dir=".";
