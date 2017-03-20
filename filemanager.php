@@ -4,8 +4,22 @@
  author treemonster
  latest 2017/3/20
  */
-$root=realpath(dirname(__FILE__).'/../uploads/access_tokens');// 指定文件管理的根目录，所有的文件操作只能在此目录下进行。此目录必须具备全部读写权限
+$root=realpath(dirname(__FILE__));// 指定文件管理的根目录，所有的文件操作只能在此目录下进行。此目录必须具备全部读写权限
 
+// 校验访问者身份，所有人都可以使用文件下载功能，但其他功能必须校验用户身份
+// 请根据实际情况增加校验逻辑
+function checkPermission(){
+  /*
+   // 例如
+   session_start();
+   if(!$_SESSION['logined']){
+	    die('permission denied');
+   }
+   */
+  return true;
+}
+
+///////////////////////////////////////////////////////////////
 $dir=isset($_REQUEST['dir'])?$_REQUEST['dir']:'.';
 $realdir=realpath($root.'/'.$dir);
 if(substr($realdir, 0,strlen($root))!=$root)$dir=".";
@@ -22,6 +36,8 @@ if(isset($_REQUEST['down'])){
   if($filename) readfile($filename);
   exit;
 }
+
+checkPermission();
 
 if(isset($_REQUEST['delfile']))try{
   @unlink($realdir.'/'.$_REQUEST['delfile']);
