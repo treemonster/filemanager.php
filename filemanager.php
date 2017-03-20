@@ -3,6 +3,7 @@
  A simple file manager with php
  author treemonster
  latest 2017/3/20
+ git: https://github.com/treemonster/filemanager.php
  */
 $root=realpath(dirname(__FILE__));// 指定文件管理的根目录，所有的文件操作只能在此目录下进行。此目录必须具备全部读写权限
 
