@@ -27,7 +27,8 @@ if(substr($realdir, 0,strlen($root))!=$root)$dir=".";
 $realdir=realpath($root.'/'.$dir);
 
 if(isset($_REQUEST['down'])){
-  $bfn=pathinfo($_REQUEST['down'])['basename'];
+  $xp=pathinfo($_REQUEST['down']);
+  $bfn=$xp['basename'];
   $filename=realpath($realdir.'/'.$bfn);
   $date=date("Ymd-H:i:m");
   header( "Content-type:  application/octet-stream");
@@ -74,7 +75,8 @@ if(isset($_REQUEST['deldir']))try{
 if(isset($_FILES['upfile']))try{
   if(!$_FILES['upfile']['tmp_name']) throw new Exception("upload file failed");
   $tmp=$_FILES['upfile']['tmp_name'];
-  $newfn=$realdir.'/'.pathinfo($_FILES['upfile']['name'])['basename'];
+  $px=pathinfo($_FILES['upfile']['name']);
+  $newfn=$realdir.'/'.$px['basename'];
   if(file_exists($newfn)) for($i=1;$i<9999;$i++){
   	$pn=pathinfo($newfn);
   	$nn=$pn['dirname'].'/'.$pn['basename'].'_'.$i.'.'.$pn['extension'];
